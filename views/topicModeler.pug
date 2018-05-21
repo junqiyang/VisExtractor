@@ -1,0 +1,199 @@
+extends layout
+
+block content
+  header.main-header(style="position: fixed; width: 100%;")
+    .navbar.navbar-static-top
+      h1.text-center News Topic Explorer
+      p.text-center Topic Explorer
+
+  .content-wrapper#mainContent(style="padding-top:120px")
+    .row(style="margin-bottom: 20px;")
+      .col-md-6.col-sm-6
+        .form-group(style="margin-bottom: 0;")
+          label Explored Topics
+        .input-group
+          select.form-control#topicsList
+            option option1
+          span.input-group-btn
+            button.btn.btn-default.btn-primary#exploredTopics(type='button', style="color: white;") Explore
+        p.help-block The topics in this list are already explored and saved
+
+      .col-md-4(style="padding-top: 20px;margin-left: -25px;")
+        button.btn.btn-danger#deleteTopic(type='button') Delete
+
+
+
+
+    .row
+      .col-md-6.col-sm-6
+        .form-group
+          label Search Query
+          .input-group
+            input.form-control#keywords(type='text', placeholder='Search for...')
+            span.input-group-btn
+              button.btn.btn-default.btn-primary#exploreTopics(type='button', style="color: white;") Explore
+
+      .col-md-4.col-sm-12
+        .col-md-6.col-sm-6
+          .form-group
+            label Start Date
+            .input-group.date(data-provide='datepicker', data-date-format="yyyy-mm-dd")
+              input.form-control#startDate(type='text')
+              .input-group-addon(style="background: #337ab7; color: white")
+                span.glyphicon.glyphicon-th
+
+        .col-md-6.col-sm-6
+          .form-group
+            label End Date
+            .input-group.date(data-provide='datepicker', data-date-format="yyyy-mm-dd")
+              input.form-control#endDate(type='text')
+              .input-group-addon(style="background: #337ab7; color: white")
+                span.glyphicon.glyphicon-th
+
+      .col-md-2.col-sm-6#sourcePicker
+        .col-md-12(style="padding:0")
+          .form-group
+            label Source
+            .radio(style="margin:0")
+              label
+                input(type='radio', name='sourcePicker', value="News API")
+                | News API (250 request per day)
+            .radio(style="margin:0")
+              label
+                input(type='radio', name='sourcePicker', value="Open Data Platform", checked="checked")
+                | Open Data Platform (Only Guardian)
+
+      .col-md-12(style="padding-top:0; margin-top: -20px")
+        p.help-block Start exploring your topic of interest. Boolean queries are supported in query text(AND, OR, NOT)
+
+      .col-md-12.text-center
+        .box.box-solid.bg-teal-gradient1
+          .box-header
+            i.fa.fa-th
+            h3.box-title Topic Over Time
+          .box-body.border-radius-none
+            #timeseriesChart
+            #timeseriesZoom
+
+      .col-md-12
+        .nav-tabs-custom
+          ul.nav.nav-tabs
+            li.active
+              a(href='#results', data-toggle='tab') Results
+            li
+              a(href='#wordCloudTab', data-toggle='tab') Topic Cloud
+            li
+              a(href='#topicChain', data-toggle='tab') Topic Clusters
+            li
+              a(href='#maps', data-toggle='tab') Topic Map
+
+          .tab-content.clearfix
+            #results.tab-pane.active
+              .col-md-12
+                #allResults
+
+            #wordCloudTab.tab-pane
+              .col-md-12
+                  #wordCloud
+
+            #maps.tab-pane
+              .col-md-12
+                #map(style="height: 700px")
+
+            #topicChain.tab-pane
+              .pull-right
+                button.btn.btn-sm.btn-primary#reloadModel(type='button', style="margin-right:5px;") Reload
+                button.btn.btn-sm.btn-primary#showSaveModal(type='button') Save
+              .col-md-12.text-center
+                #graphContainer
+                #zoomContainer
+
+
+      //.col-md-12.text-center
+      //  #timeseriesChart
+      .col-md-12.text-center
+        #topics
+
+      #nodeDetailsModal.modal.fade(role='dialog')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Edit Topic Node
+            .modal-body
+              .row
+                .col-md-12
+                  .form-group
+                    label Node name:
+                    .input-group(style="width: 100%;")
+                      input.form-control#newTopicName(type='text', placeholder='Topic Name')
+                .col-md-12(style="max-height: 400px;overflow-y: scroll;")
+                    h5(Style="font-weight:600; padding-bottom: 10px;") Matching Documents
+                    #topicMatchDocs(style="padding-left:10px; font-size: 96%;")
+
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+      #modelDeleteModal.modal.fade(role='dialog')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Delete Topic
+            .modal-body
+              .row
+                .col-md-12
+                  .form-group
+                    label Enter admin password to delete
+                    .input-group(style="width: 100%;")
+                      input.form-control#adminPwd(type='password')
+            .modal-footer
+              button.btn.btn-danger#modelDeleteBtn(type='button', data-dismiss='modal') Delete
+
+
+
+      #dateDetailsModal.modal.fade(role='dialog')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Matching Documents
+            .modal-body
+              .row
+                .col-md-12(style="max-height: 400px;overflow-y: scroll;")
+                  #dateMatchDocs(style="padding-left:10px; font-size: 96%;")
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal') Close
+
+      #saveDataModal.modal.fade(role='dialog')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Save Model
+            .modal-body
+              .row
+                .col-md-12
+                  .form-group
+                    label Topic Model Name
+                    .input-group(style="width: 100%;")
+                      input.form-control#topicModelName(type='text', placeholder='Enter model name ...')
+            .modal-footer
+              button.btn.btn-default#saveModelBtn(type='button', data-dismiss='modal') Save
+
+
+  script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyDBNCM-uR5yaqMYmFW6QBEFuvNRGUuvwyU')
+  script(src='/node_modules/d3/build/d3.min.js')
+  script(src='/node_modules/node-json2html/lib/json2html.js')
+  script(src='/node_modules/leaflet/dist/leaflet.js')
+  script(src='/node_modules/d3-context-menu/js/d3-context-menu.js')
+  script(src='/node_modules/toastr/build/toastr.min.js')
+  script(src='/node_modules/progressbar.js/dist/progressbar.min.js')
+  script(src='https://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js')
+  script(src='https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js')
+
+  script(src='/assets/javascripts/d3.layout.cloud.js')
+  script(src='/assets/javascripts/keywordHighlighter.js')
+  script(src='/assets/javascripts/cloudTextRenderer.js')
+  script(src='/assets/javascripts/topicModeler.js')
+  script(src='/assets/javascripts/graphRenderer.js')

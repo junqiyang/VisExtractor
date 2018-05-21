@@ -1,0 +1,110 @@
+body {
+  /*padding: 10px;*/
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  background-color: #15b3f0;
+
+  margin: 100px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes sk-rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+      -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+    } 100% {
+        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+      }
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  /*height: 28px;*/
+  padding: 5px;
+  font: 14px sans-serif;
+  color: white;
+  background: rgba(0,0,0,0.8);
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.tick line{
+  stroke: steelblue;
+}
+
+.tick Path{
+  stroke: steelblue;
+}
+
+.tick text{
+  fill: steelblue;
+}
+
+path.domain{
+  stroke: steelblue;
+}
+
+.main-header .navbar {
+  margin: 0 0 0 0;
+  color: white;
+}
+
+.content-wrapper, .main-footer {
+  margin-left: 0;
+  padding: 10px;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+.toast-top-right {
+  top: 120px;
+}
+
+.datepicker {
+ z-index: 100000 !important;
+}
+
+.modal-dialog {
+  margin-top: 100px;
+}
+
+.modal-header{
+  background: #24668d;
+  color: white;
+}
+
+.modal-footer{
+  background: #24668d;
+  color: white;
+}
