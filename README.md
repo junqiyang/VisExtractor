@@ -1,5 +1,5 @@
 # Welcome to VisExtractor
-===============================================
+
 Class project for CSCE691. Data visualization. The project is provide a visualization tool for
 1. News Event Topic Modeling
 2. Entity based event characterization
