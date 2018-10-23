@@ -9,7 +9,9 @@ Class project for CSCE691. Data visualization. The project is provide a visualiz
 Project Team Member
 -------------
 Karthic Madanagopal
+
 Junqi Yang
+
 Andrew Miller
 
 #### <i class="icon-folder-open"></i> Original git repo Link:
